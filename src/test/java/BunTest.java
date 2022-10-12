@@ -1,6 +1,4 @@
 import praktikum.Bun;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -10,23 +8,15 @@ import static org.junit.Assert.*;
 public class BunTest {
     private final String bunName;
     private final float bunPrice;
-    //private Bun testBun;
+    private Bun testBun;
 
     public BunTest(String bunName, float bunPrice) {
         this.bunName = bunName;
         this.bunPrice = bunPrice;
+        this.testBun = new Bun(this.bunName, this.bunPrice);
     }
 
-    @Before
-    public void setUp() {
-        //this.testBun = new Bun(this.bunName, this.bunPrice);
-    }
-
-    @After
-    public void tearDown() {
-    }
-
-    @Parameterized.Parameters(name = "Test data: bunName [{0}], bunPrice [{1}]")
+    @Parameterized.Parameters(name = "Тестовые данные: название булочки [{0}], цена булочки [{1}]")
     public static Object[][] getTestData() {
         return new Object[][] {
                 {"black bun", 100},
@@ -37,13 +27,11 @@ public class BunTest {
 
     @Test
     public void getNameTest() {
-        Bun testBun = new Bun(this.bunName, this.bunPrice);
-        assertEquals("Buns names not equals", bunName, testBun.getName());
+        assertEquals("Название булочки не совпадает с ожидаемым", this.bunName, this.testBun.getName());
     }
 
     @Test
     public void getPriceTest() {
-        Bun testBun = new Bun(this.bunName, this.bunPrice);
-        assertEquals("Buns prices not equals", bunPrice, testBun.getPrice(), 0.0);
+        assertEquals("Цена булочки не совпадает с ожидаемой", this.bunPrice, this.testBun.getPrice(), 0.0);
     }
 }

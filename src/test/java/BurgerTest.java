@@ -1,4 +1,5 @@
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -7,9 +8,8 @@ import praktikum.Burger;
 import praktikum.Ingredient;
 import praktikum.IngredientType;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
 public class BurgerTest {
@@ -24,9 +24,6 @@ public class BurgerTest {
     public ErrorCollector collector = new ErrorCollector();
 
     @Parameterized.Parameters
-    // String bunName, float bunPrice, IngredientType ingredientType, String ingredientName, float ingredientPrice
-    // "black bun", "white bun", "red bun"
-    // IngredientType SAUCE FILLING
     public static Object[][] getTestData() {
         return new Object[][] {
                 {"black bun", 100, IngredientType.FILLING, "Начинка", 50, 250},
@@ -35,8 +32,8 @@ public class BurgerTest {
         };
     }
 
-    public BurgerTest(String bunName, float bunPrice, IngredientType ingredientType, String ingredientName,
-                      float ingredientPrice, float totalPrice) {
+    public BurgerTest(String bunName, float bunPrice,
+                      IngredientType ingredientType, String ingredientName, float ingredientPrice, float totalPrice) {
         this.bunName = bunName;
         this.bunPrice = bunPrice;
         this.ingredientType = ingredientType;
@@ -47,101 +44,37 @@ public class BurgerTest {
 
     @Test
     public void setBunsTest() {
-        Bun testBun = new Bun(this.bunName, this.bunPrice);
         Burger burger = new Burger();
-        burger.setBuns(testBun);
-        System.out.println(burger.getReceipt());
+        burger.setBuns(new Bun(this.bunName, this.bunPrice));
+        assertTrue("В рецепте нет добавленной булочки", burger.getReceipt().contains(this.bunName));
     }
 
     @Test
     public void addIngredientTest() {
-        Bun testBun = new Bun(this.bunName, this.bunPrice);
         Burger burger = new Burger();
-        Ingredient ingredient = new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice);
-        burger.addIngredient(ingredient);
-        burger.setBuns(testBun);
-        System.out.println(burger.getReceipt());
+        burger.setBuns(new Bun(this.bunName, this.bunPrice));
+        burger.addIngredient(new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice));
+        assertTrue("В рецепте нет добавленного ингредиента", burger.getReceipt().contains(this.ingredientName));
     }
 
     @Test
     public void removeIngredientTest() {
-        Bun testBun = new Bun(this.bunName, this.bunPrice);
         Burger burger = new Burger();
-        Ingredient ingredient = new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice);
-        burger.addIngredient(ingredient);
-        burger.setBuns(testBun);
-        System.out.println("===============");
-        System.out.println(burger.getReceipt());
+        burger.setBuns(new Bun(this.bunName, this.bunPrice));
+        burger.addIngredient(new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice));
         burger.removeIngredient(0);
-        System.out.println("===============");
-        System.out.println(burger.getReceipt());
+        assertFalse("В рецепте есть ингредиент, который был удален", burger.getReceipt().contains(this.ingredientName));
     }
 
     @Test
     public void moveIngredientTest() {
-        Bun testBun = new Bun(this.bunName, this.bunPrice);
         Burger burger = new Burger();
-
-        Ingredient firstIngredient = new Ingredient(IngredientType.FILLING, "Помидорка", 10);
+        burger.setBuns(new Bun(this.bunName, this.bunPrice));
+        Ingredient firstIngredient = new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice);
         burger.addIngredient(firstIngredient);
-        Ingredient secondIngredient = new Ingredient(IngredientType.SAUCE, "Соус", 15);
-        burger.addIngredient(secondIngredient);
-
-        burger.setBuns(testBun);
-
-        System.out.println("===============");
-        System.out.println(burger.getReceipt());
+        burger.addIngredient(new Ingredient(IngredientType.SAUCE, "Соус терияки", 0));
         burger.moveIngredient(0, 1);
-        System.out.println("===============");
-        System.out.println(burger.getReceipt());
+        assertTrue("Не изменился порядок ингредиентов бургера после их перемещения", burger.ingredients.get(1).equals(firstIngredient));
     }
 
-    @Test
-    public void getPriceTest() {
-        Burger burger = new Burger();
-
-        Bun testBun = new Bun(this.bunName, this.bunPrice);
-        burger.setBuns(testBun);
-
-        Ingredient ingredient = new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice);
-        burger.addIngredient(ingredient);
-
-        //Ingredient firstIngredient = new Ingredient(IngredientType.FILLING, "Помидорка", 10);
-        //burger.addIngredient(firstIngredient);
-        //Ingredient secondIngredient = new Ingredient(IngredientType.SAUCE, "Соус", 15);
-        //burger.addIngredient(secondIngredient);
-
-        float burgerPrice = burger.getPrice();
-        assertEquals("Burger prices not equals", this.totalPrice, burgerPrice, 0.0);
-    }
-
-    @Test
-    public void getReceiptTest() {
-        Burger burger = new Burger();
-
-        Bun testBun = new Bun(this.bunName, this.bunPrice);
-        burger.setBuns(testBun);
-
-        Ingredient ingredient = new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice);
-        burger.addIngredient(ingredient);
-
-        //Ingredient firstIngredient = new Ingredient(IngredientType.FILLING, "Помидорка", 10);
-        //burger.addIngredient(firstIngredient);
-        //Ingredient secondIngredient = new Ingredient(IngredientType.SAUCE, "Соус", 15);
-        //burger.addIngredient(secondIngredient);
-
-        String receipt = burger.getReceipt();
-        System.out.println("===============");
-        System.out.println(receipt);
-
-        //String actual = "Java";
-        //String expected = "va";
-        //Assert.assertThat(actual, containsString(expected));
-
-        //collector.checkThat(containsString(firstIngredient.getName()));
-        assertTrue("Рецепт не содержит добавленный ингридиент",
-                receipt.contains(this.ingredientName));
-
-        assertEquals("Burger prices not equals", this.totalPrice, burger.getPrice(), 0.0);
-    }
 }
