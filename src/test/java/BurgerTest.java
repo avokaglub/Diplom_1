@@ -7,12 +7,12 @@ import praktikum.Bun;
 import praktikum.Burger;
 import praktikum.Ingredient;
 import praktikum.IngredientType;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
 public class BurgerTest {
+    Burger burger;
     String bunName;
     float bunPrice;
     IngredientType ingredientType;
@@ -40,37 +40,34 @@ public class BurgerTest {
         this.ingredientName = ingredientName;
         this.ingredientPrice = ingredientPrice;
         this.totalPrice = totalPrice;
+        this.burger = new Burger();
     }
 
     @Test
     public void setBunsTest() {
-        Burger burger = new Burger();
-        burger.setBuns(new Bun(this.bunName, this.bunPrice));
-        assertTrue("В рецепте нет добавленной булочки", burger.getReceipt().contains(this.bunName));
+        burger.setBuns(new Bun(bunName, bunPrice));
+        assertTrue("В рецепте нет добавленной булочки", burger.getReceipt().contains(bunName));
     }
 
     @Test
     public void addIngredientTest() {
-        Burger burger = new Burger();
-        burger.setBuns(new Bun(this.bunName, this.bunPrice));
-        burger.addIngredient(new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice));
-        assertTrue("В рецепте нет добавленного ингредиента", burger.getReceipt().contains(this.ingredientName));
+        burger.setBuns(new Bun(bunName, bunPrice));
+        burger.addIngredient(new Ingredient(ingredientType, ingredientName, ingredientPrice));
+        assertTrue("В рецепте нет добавленного ингредиента", burger.getReceipt().contains(ingredientName));
     }
 
     @Test
     public void removeIngredientTest() {
-        Burger burger = new Burger();
-        burger.setBuns(new Bun(this.bunName, this.bunPrice));
-        burger.addIngredient(new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice));
+        burger.setBuns(new Bun(bunName, bunPrice));
+        burger.addIngredient(new Ingredient(ingredientType, ingredientName, ingredientPrice));
         burger.removeIngredient(0);
-        assertFalse("В рецепте есть ингредиент, который был удален", burger.getReceipt().contains(this.ingredientName));
+        assertFalse("В рецепте есть ингредиент, который был удален", burger.getReceipt().contains(ingredientName));
     }
 
     @Test
     public void moveIngredientTest() {
-        Burger burger = new Burger();
-        burger.setBuns(new Bun(this.bunName, this.bunPrice));
-        Ingredient firstIngredient = new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice);
+        burger.setBuns(new Bun(bunName, bunPrice));
+        Ingredient firstIngredient = new Ingredient(ingredientType, ingredientName, ingredientPrice);
         burger.addIngredient(firstIngredient);
         burger.addIngredient(new Ingredient(IngredientType.SAUCE, "Соус терияки", 0));
         burger.moveIngredient(0, 1);

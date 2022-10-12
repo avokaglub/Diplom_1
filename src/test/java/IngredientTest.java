@@ -27,19 +27,19 @@ public class IngredientTest {
 
     @Test
     public void getPriceTest() {
-        Ingredient ingredient = new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice);
-        assertEquals(this.ingredientPrice, ingredient.getPrice(), 0.0);
+        Ingredient ingredient = new Ingredient(ingredientType, ingredientName, ingredientPrice);
+        assertEquals(ingredientPrice, ingredient.getPrice(), 0.0);
     }
 
     @Test
     public void getNameTest() {
-        Ingredient ingredient = new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice);
-        assertEquals("Ingredient names not equals", this.ingredientName, ingredient.getName());
+        Ingredient ingredient = new Ingredient(ingredientType, ingredientName, ingredientPrice);
+        assertEquals("Ingredient names not equals", ingredientName, ingredient.getName());
     }
 
     @Test
     public void getTypeTest() {
-        Ingredient ingredient = new Ingredient(this.ingredientType, this.ingredientName, this.ingredientPrice);
-        assertEquals("Ingredient names not equals", this.ingredientType, ingredient.getType());
+        Ingredient ingredient = new Ingredient(ingredientType, ingredientName, ingredientPrice);
+        assertEquals("Ingredient names not equals", ingredientType, ingredient.getType());
     }
 }
