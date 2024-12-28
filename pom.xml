@@ -21,7 +21,7 @@
         <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest -->
         <hamcrest.version>3.0</hamcrest.version>
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
-        <mockito-core.version>5.14.2</mockito-core.version>
+        <mockito-core.version>5.13.0</mockito-core.version>
         <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
     </properties>
